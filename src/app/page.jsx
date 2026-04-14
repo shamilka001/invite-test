@@ -19,7 +19,7 @@ export default function Invitation() {
     <div className="relative w-full h-full perspective-[1200px]">
       {!hideEnvelope && (
   <div
-    className="fixed inset-0 z-50 flex items-center justify-center bg-black overflow-hidden"
+    className="fixed inset-0 z-50 flex items-center justify-center bg-[#eeffff] overflow-hidden"
     onClick={() => setOpen(true)}
   >
     <div className="relative w-full h-full">
