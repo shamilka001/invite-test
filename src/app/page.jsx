@@ -3,34 +3,46 @@
 import { useState } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { EffectFade, Mousewheel, Scrollbar, Parallax } from "swiper/modules"
-
+import { motion } from "framer-motion"
 import "swiper/css"
 import "swiper/css/effect-fade"
 import "swiper/css/scrollbar"
 
+import Petals from "@/components/Petals"
+
 export default function Invitation() {
   const [open, setOpen] = useState(false)
+  const [hideEnvelope, setHideEnvelope] = useState(false)
+  
   return (
 
-    <div className="relative h-screen w-full">
-      {!open && (
+    <div className="relative w-full h-full perspective-[1200px]">
+      {!hideEnvelope && (
   <div
-    className="fixed inset-0 z-50 flex items-center justify-center bg-black/30"
+    className="fixed inset-0 z-50 flex items-center justify-center bg-black overflow-hidden"
     onClick={() => setOpen(true)}
   >
-    {/* Envelope Bottom */}
-    <img
-      src="/o1.png"
-      className="absolute w-full h-full object-cover"
-    />
+    <div className="relative w-full h-full">
 
-    {/* Envelope Top (animated) */}
-    <img
-      src="/o2.png"
-      className={`absolute w-full h-full object-cover transition-all duration-1000 ${
-        open ? "opacity-0 scale-110" : "opacity-100 scale-100"
-      }`}
-    />
+      {/* Bottom part (stays) */}
+      <img
+        src="/o1.png"
+        className="absolute w-full h-full object-cover"
+      />
+
+      {/* Top layer slides LEFT */}
+      <motion.img
+        src="/o2.png"
+        className="absolute w-full h-full object-cover"
+        initial={{ x: 0 }}
+        animate={open ? { x: "-100%" } : { x: 0 }}
+        transition={{ duration: 1, ease: "easeInOut" }}
+        onAnimationComplete={() => {
+          if (open) setHideEnvelope(true)
+        }}
+      />
+
+    </div>
   </div>
 )}
 
@@ -41,6 +53,8 @@ export default function Invitation() {
   />
 
   {/* Swiper */}
+  
+        <Petals />
     <Swiper
   direction="vertical"
   effect="fade"
@@ -71,19 +85,31 @@ export default function Invitation() {
 
       <SwiperSlide>
         <div className="flex flex-col items-center justify-center h-screen text-center bg-transparent">
-          <h1 className="text-[40px] font-bold">Reception</h1>
-          <p className="text-[12px] mt-2">Hilton Colombo Residences</p>
+          <h1 className=" text-yellow-800 text-[40px] font-bold">Holy Mass</h1>
+          
           <iframe 
-src="https://www.google.com/maps?q=Hilton+Colombo+Residences&output=embed"
-loading="lazy"className="mt-4 w-80 h-60 border-0">
+          src="https://www.google.com/maps?q=Hilton+Colombo+Residences&output=embed"
+          loading="lazy"className="mt-4 w-50 h-80 rounded-t-full border border-solid border-blue-800 shadow-md">
 
-</iframe>
+</iframe><p className="text-[12px] mt-2">Hilton Colombo Residences</p>
         </div>
       </SwiperSlide>
 
       <SwiperSlide>
         <div className="flex flex-col items-center justify-center h-screen text-center bg-transparent">
-          <h1 className="text-[40px] font-bold">Slide 3</h1>
+          <h1 className=" text-yellow-800 text-[40px] font-bold">Reception</h1>
+          
+          <iframe 
+src="https://www.google.com/maps?q=Hilton+Colombo+Residences&output=embed"
+loading="lazy"className="mt-4 w-50 h-80 rounded-t-full border border-solid border-blue-800">
+
+</iframe><p className="text-[12px] mt-2">Hilton Colombo Residences</p>
+        </div>
+      </SwiperSlide>
+
+      <SwiperSlide>
+        <div className="flex flex-col items-center justify-center h-screen text-center bg-transparent">
+          <h1 className=" text-yellow-800 text-[40px] font-bold">Slide 3</h1>
           <form className="flex flex-col gap-3 mt-4 w-64">
   <input className="p-2 rounded bg-white/80 text-black" type="text" placeholder="Name" required />
   
@@ -99,12 +125,12 @@ loading="lazy"className="mt-4 w-80 h-60 border-0">
 
   <textarea className="p-2 rounded bg-white/80 text-black" placeholder="Message"></textarea>
 
-  <button className="bg-black text-white py-2 rounded">
+  <button className=" bg-yellow-600 text-white py-2 rounded-full w-32 align-middle self-center mt-4" type="submit">
     Submit RSVP
   </button>
 </form>
           
-          <img src="/your-image.jpg" className="mt-4 w-40" />
+          
         </div>
       </SwiperSlide>
 
@@ -115,7 +141,7 @@ loading="lazy"className="mt-4 w-80 h-60 border-0">
           <img src="/your-image.jpg" className="mt-4 w-40" />
         </div>
       </SwiperSlide>
-
+    
     </Swiper>
     </div>
   )
